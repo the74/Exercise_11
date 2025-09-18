@@ -39,8 +39,41 @@
       <li><a href="https://kubsu.ru" title="kubsu"> kubsu </a></li>
       <li><a href="https://kubsu.ru" title="kubsu"> kubsu </a></li>
         </ol>
-        
+        <h2>Форма</h2>
+<form>
+    <label>Имя: <input type="text" name="name"></label><br>
+    <label>Фамилия: <input type="text2" name="name2"></label><br>
+    <label>Отчество: <input type="text3" name="name3"></label><br>
+    <label>Телефон: <input type="tel" name="phone"></label><br>
+    <label>Email: <input type="email" name="email"></label><br>
+    <label>Дата рождения: <input type="date" name="birthdate"></label><br>
+    
+    <span>Пол:</span>
+        <label><input type="radio" name="gender" value="male"> Мужской</label>
+        <label><input type="radio" name="gender" value="female"> Женский</label>
+    <br>
 
+    <label>Любимый язык программирования: 
+        <select name="languages">
+            <option value="pascal">Pascal</option>
+            <option value="Python">Python</option>
+            <option value="C++">C++</option>
+            <option value="C">C</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="PHP">PHP</option>
+            <option value="Java">Java</option>
+            <option value="Haskel">Haskel</option>
+            <option value="Clojure">Clojure</option>
+            <option value="Prolog">Scala</option>
+        </select>
+    </label><br>
+
+    <label>Биография: <textarea name="bio"></textarea></label><br>
+    <label>С контрактом ознакомлен(a)<input type="checkbox" name="agreement"> </label><br>
+    <button type="submit">Сохранить</button>
+</form>
+
+        
 
     </body>
 
