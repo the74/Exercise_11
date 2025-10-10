@@ -309,7 +309,7 @@
         }
         document.getElementById('Form').addEventListener('submit', function(e) {
             e.preventDefault();
-            if (validateField(field.value) && validateRussianPhone(phone)) {
+            if (validateField(field.value) && validatePhoneField()) {
                 alert('Форма заполнена корректно!');
             }
         });
