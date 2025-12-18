@@ -1,4 +1,4 @@
-        const field = document.getElementById('name');
+            const field = document.getElementById('name');
         const error = document.getElementById('nameError');
 
 
@@ -18,20 +18,6 @@
         const nameRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         function validateField(value) {
             let isValid = true;
-            if (value.trim() == '') {
-                error.textContent = 'Поле не может быть пустым';
-                field.className = 'invalid';
-                return false;
-            } else if (value.length <= 3 || !(/\s/.test(value)) || value !== value.trim()) {
-                error.textContent = 'Введите корректное ФИО';
-                field.className = 'invalid';
-                return false;
-            } else {
-                error.textContent = '';
-                field.className = 'valid';
-            }
-
-
             // Проверка email
             const email = document.getElementById('Email').value;
             const emailError = document.getElementById('emailError');
