@@ -3,73 +3,70 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Задание №1</title>
+    <title> Задание №2 </title>
 </head>
-<body>
-<h1 id="exe1">
-    Задание 1
-</h1>
-<section class="col-12" id="content-section">
-    <div class="card">
-        <div class="row g-4">
-            <!-- Маркированный список -->
-            <div class="col-12">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title h5">Маркированный список</h2>
-                        <ul class="list-unstyled">
-                            <li class="mb-2">1. <a href="http://kubsu.ru/" target="_blank" class="text-decoration-none">kubsu (http)</a></li>
-                            <li class="mb-2">2. <a href="https://kubsu.ru/" target="_blank" class="text-decoration-none">kubsu (https)</a></li>
-                            <li class="mb-2">3. <a href="https://kubsu.ru/" class="text-decoration-none">
-                                <img src="photo.jpg" alt="Панорама КубГУ" class="img-fluid rounded">
-                            </a></li>
-                            <li class="mb-2">4. <a href="th.html" class="text-decoration-none">внутр. страница</a></li>
-                            <li class="mb-2">5. <a href="" class="text-decoration-none">главная</a></li>
-                            <li class="mb-2">6. <a href="#content-section" class="text-decoration-none">фрагмент</a></li>
-                            <li class="mb-2">7. <a href="https://www.kubsu.ru/ru/search?keys=образование&category=8&year=2023" class="text-decoration-none">поиск 3 параметра</a></li>
-                            <li class="mb-2">8. <a href="https://www.kubsu.ru/ru/node/38730?id=12345" class="text-decoration-none">страница с id</a></li>
-                            <li class="mb-2">9. <a href="index.html" class="text-decoration-none">текущий каталог</a></li>
-                            <li class="mb-2">10. <a href="about/th1.html" class="text-decoration-none">каталог info</a></li>
-                            <li class="mb-2">11. <a href="about/about1/th2.html" class="text-decoration-none">уровень выше</a></li>
-                            <li class="mb-2">12. <a href="about/about1/th2.html" class="text-decoration-none">два уровня выше</a></li>
-                            <li class="mb-2">13. Контекст: <a href="https://kubsu.ru" class="text-decoration-none">КубГУ</a></li>
-                            <li class="mb-2">14. <a href="https://www.kubsu.ru/ru/university#fragment" class="text-decoration-none">Фрагмент на КубГУ</a></li>
-                            <li class="mb-2">16. <a href="" class="text-decoration-none">пустой href</a></li>
-                            <li class="mb-2">17. <a class="text-decoration-none">без href</a></li>
-                            <li class="mb-2">18. <a href="https://kubsu.ru" rel="nofollow" class="text-decoration-none">nofollow</a></li>
-                            <li class="mb-2">19. <a href="https://kubsu.ru" rel="noindex" class="text-decoration-none">noindex</a></li>
-                            <li class="mb-2">21. <a href="ftp://example.com/" class="text-decoration-none">FTP файл</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Области картинки -->
-            <div class="col-12">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title h5">Области картинок</h2>
-                        <p class="mb-1">Квадрат - русская версия сайта КУБГУ</p>
-                        <p class="mb-3">Круг - английская версия сайта КУБГУ</p>
-                        <div class="text-center">
-                            <img src="photo_2.png"
-                                 alt="Квадрат и круг"
-                                 class="img-fluid rounded"
-                                 usemap="#examplemap">
-                        </div>
-                        <map name="examplemap">
-                            <map name="Map">
-                                <area alt="not_found" shape="rect" coords="22,70,153,190" href="https://kubsu.ru" >
-                                <area alt="not_found" href="https://kubsu.ru/en" coords="288,128,68" shape="circle">
-                            </map>
-                        </map>
-                    </div>
-                </div>
-            </div>
+<body class="body">
+<header class="header">
+    <img class="picture" src="photo.jpg" title="логотип" height = 130 width=130 alt="Site logo">
+    <nav>
+        <div class = "nav">
+            <a class="kontent" href="#content-section">Ссылки</a>
+            <a class="Table" href="#table">Таблица</a>
+            <a class="Form"  href="#Form">Форма</a>
         </div>
-    </div>
-</section>
+    </nav>
+    <h1 title="Задание № 2" class="kl">Задание № 2</h1>
+</header>
 
+
+<section class="col-21" id="content-section">
+
+    <h2 class="hr">Маркированный список</h2>
+            <div class="window">
+
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="http://kubsu.ru/" target="_blank" class="text-decoration-none">kubsu (http)</a></li>
+                    <li class="mb-2"><a href="https://kubsu.ru/" target="_blank" class="text-decoration-none">kubsu (https)</a></li>
+                    <a href="https://kubsu.ru/" class="text-decoration-none">
+                        <img src="photo.jpg" alt="Панорама КубГУ" class="img-fluid rounded">
+                    </a>
+                    <li class="mb-2"><a href="th.html" class="text-decoration-none">внутр. страница</a></li>
+                    <li class="mb-2"><a href="" class="text-decoration-none">главная</a></li>
+                    <li class="mb-2"><a href="#content-section" class="text-decoration-none">фрагмент</a></li>
+                    <li class="mb-2"><a href="https://www.kubsu.ru/ru/search?keys=образование&category=8&year=2023" class="text-decoration-none">поиск 3 параметра</a></li>
+                    <li class="mb-2"><a href="https://www.kubsu.ru/ru/node/38730?id=12345" class="text-decoration-none">страница с id</a></li>
+                    <li class="mb-2"><a href="index.html" class="text-decoration-none">текущий каталог</a></li>
+                    <li class="mb-2"><a href="about/th1.html" class="text-decoration-none">каталог info</a></li>
+                    <li class="mb-2"><a href="about/about1/th2.html" class="text-decoration-none">уровень выше</a></li>
+                    <li class="mb-2"><a href="about/about1/th2.html" class="text-decoration-none">два уровня выше</a></li>
+                    <li class="mb-2">Контекст: <a href="https://kubsu.ru" class="text-decoration-none">КубГУ</a></li>
+                    <li class="mb-2"><a href="https://www.kubsu.ru/ru/university#fragment" class="text-decoration-none">Фрагмент на КубГУ</a></li>
+                    <li class="mb-2"><a href="" class="text-decoration-none">пустой href</a></li>
+                    <li class="mb-2"><a class="text-decoration-none">без href</a></li>
+                    <li class="mb-2"><a href="https://kubsu.ru" rel="nofollow" class="text-decoration-none">nofollow</a></li>
+                    <li class="mb-2"><a href="https://kubsu.ru" rel="noindex" class="text-decoration-none">noindex</a></li>
+                    <li class="mb-2"><a href="ftp://example.com/" class="text-decoration-none">FTP файл</a></li>
+                </ul>
+            </div>
+
+    <h2 class="hr">Области картинок</h2>
+            <div class="window">
+
+                <p class="mb-1">Квадрат - русская версия сайта КУБГУ</p>
+                <p class="mb-3">Круг - английская версия сайта КУБГУ</p>
+                <div class="text-center">
+                    <img src="photo_2.png"
+                         alt="Квадрат и круг"
+                         class="img-fluid rounded"
+                         usemap="#examplemap">
+                </div>
+                <map name="examplemap">
+                    <map name="Map">
+                        <area alt="not_found" shape="rect" coords="22,70,153,190" href="https://kubsu.ru" >
+                        <area alt="not_found" href="https://kubsu.ru/en" coords="288,128,68" shape="circle">
+                    </map>
+                </map>
+            </div>
 
 <h2 class="hr">Форма</h2>
 <form id="Form" class="window">
