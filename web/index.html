@@ -71,11 +71,11 @@
 </section>
 
 
-<h2>Форма</h2>
-<form id="Form">
-    <div>ФИО: <br /><input type="text" id="name" required placeholder="Фамилия Имя Отчество">
+<h2 class="hr">Форма</h2>
+<form id="Form" class="window">
+    <div>ФИО: <br /><input type="text" id="name" required placeholder="Фамилия Имя Отчество" required minlength="2" rows="3">
         <div id="nameError" class="error"></div>
-
+    </div>
         <div class="form-group">
             <label for="phone">Телефон *</label> <br />
             <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
@@ -115,13 +115,15 @@
         </div>
         <div class="error" id="agreeError">
             Необходимо ваше согласие для продолжения
+
         </div>
 
 
 
 
         <button type="submit">Сохранить</button>
-</form>
+
+ </form>
 
 <script src="Code.js"></script>
 </body>
