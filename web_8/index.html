@@ -15,11 +15,11 @@
             <i class="fas fa-pizza-slice logo-icon"></i>
             <h1>Пицца<span>Мания</span></h1>
         </div>
-        
+
         <nav>
             <ul id="mainNav">
                 <li><a href="#home" class="nav-link active">Главная</a></li>
-                
+
                 <!-- Выпадающее меню для Меню -->
                 <li class="dropdown">
                     <a href="#menu" class="nav-link dropdown-toggle">
@@ -32,12 +32,12 @@
                         <li><a href="#menu" class="dropdown-item" data-category="drink">Напитки</a></li>
                     </ul>
                 </li>
-                
+
                 <li><a href="#about" class="nav-link">О нас</a></li>
                 <li><a href="#contact" class="nav-link">Доставка</a></li>
             </ul>
         </nav>
-        
+
         <div class="header-actions">
             <div class="cart-icon" id="cartIcon">
                 <i class="fas fa-shopping-cart"></i>
@@ -319,42 +319,48 @@
                 <div class="job-form-wrapper">
                     <div class="job-form-section">
                         <h3>Заполните анкету</h3>
-                        <form id="jobForm" class="job-form">
+                        <!-- ЗДЕСЬ ИЗМЕНЕНИЕ: форма для Formspree -->
+                        <form id="jobForm" class="job-form" action="https://formspree.io/f/mwvkknkk" method="POST">
+                            <!-- Скрытые поля для Formspree -->
+                            <input type="hidden" name="_subject" value="Новая заявка на вакансию - ПиццаКУБ">
+                            <input type="hidden" name="_language" value="ru">
+                            <input type="text" name="_gotcha" style="display:none">
+
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="job-name">Фамилия Имя Отчество *</label>
-                                    <input type="text" id="job-name" name="fio" class="form-control" required placeholder="Иванов Иван Иванович">
+                                    <input type="text" id="job-name" name="ФИО" class="form-control" required placeholder="Иванов Иван Иванович">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="job-birthdate">Дата рождения</label>
-                                    <input type="date" id="job-birthdate" name="birthdate" class="form-control">
+                                    <input type="date" id="job-birthdate" name="Дата рождения" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="job-city">Город проживания</label>
-                                    <input type="text" id="job-city" name="city" class="form-control" placeholder="Краснодар">
+                                    <input type="text" id="job-city" name="Город" class="form-control" placeholder="Краснодар">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="job-phone">Контактный телефон *</label>
-                                    <input type="tel" id="job-phone" name="phone" class="form-control" required placeholder="+7 (999) 123-45-67">
+                                    <input type="tel" id="job-phone" name="Телефон" class="form-control" required placeholder="+7 (999) 123-45-67">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="job-email">Email *</label>
-                                    <input type="email" id="job-email" name="email" class="form-control" required placeholder="ivanov@example.com">
+                                    <input type="email" id="job-email" name="Email" class="form-control" required placeholder="ivanov@example.com">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="job-position">Желаемая должность *</label>
-                                    <select id="job-position" name="position" class="form-control" required>
+                                    <select id="job-position" name="Должность" class="form-control" required>
                                         <option value="">Выберите должность</option>
                                         <option value="Пиццамейкер">Пиццамейкер</option>
                                         <option value="Повар">Повар</option>
@@ -366,8 +372,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="job-schedule">язык программирования</label>
-                                    <select id="job-schedule" name="schedule" class="form-control">
+                                    <label for="job-schedule">Язык программирования</label>
+                                    <select id="job-schedule" name="Язык программирования" class="form-control">
                                         <option value="">Не знаю</option>
                                         <option value="С++">С++</option>
                                         <option value="Java">Java</option>
@@ -378,22 +384,22 @@
 
                             <div class="form-group">
                                 <label for="job-experience">Опыт работы</label>
-                                <textarea id="job-experience" name="experience" class="form-control" rows="3"></textarea>
+                                <textarea id="job-experience" name="Опыт работы" class="form-control" rows="3" placeholder="Опишите ваш опыт работы"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="job-education">Образование</label>
-                                <textarea id="job-education" name="education" class="form-control" rows="2"></textarea>
+                                <textarea id="job-education" name="Образование" class="form-control" rows="2" placeholder="Укажите ваше образование"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="job-skills">Ключевые навыки</label>
-                                <textarea id="job-skills" name="skills" class="form-control" rows="2" placeholder="Например: работа с кассой, знание английского, водительские права"></textarea>
+                                <textarea id="job-skills" name="Навыки" class="form-control" rows="2" placeholder="Например: работа с кассой, знание английского, водительские права"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label class="checkbox-label">
-                                    <input type="checkbox" name="ready_for_interview">
+                                    <input type="checkbox" name="Готов к собеседованию">
                                     <span>Готов к собеседованию в течение недели</span>
                                 </label>
                             </div>
@@ -512,28 +518,37 @@
 
                 <div class="delivery-form">
                     <h3>Оформить доставку</h3>
-                    <form id="orderForm">
+                    <!-- ЗДЕСЬ ИЗМЕНЕНИЕ: форма для Formspree -->
+                    <form id="orderForm" action="https://formspree.io/f/mwvkknkk" method="POST">
+                        <!-- Скрытые поля для Formspree -->
+                        <input type="hidden" name="_subject" value="Новый заказ доставки - ПиццаКУБ">
+                        <input type="hidden" name="_language" value="ru">
+                        <input type="text" name="_gotcha" style="display:none">
+
                         <div class="form-group">
-                            <label for="name">Ваше имя</label>
-                            <input type="text" id="name" class="form-control" required>
+                            <label for="name">Ваше имя *</label>
+                            <input type="text" id="name" name="Имя" class="form-control" required placeholder="Введите ваше имя">
                         </div>
 
                         <div class="form-group">
-                            <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" class="form-control" required>
+                            <label for="phone">Телефон *</label>
+                            <input type="tel" id="phone" name="Телефон" class="form-control" required placeholder="+7 (999) 123-45-67">
                         </div>
 
                         <div class="form-group">
-                            <label for="address">Адрес доставки</label>
-                            <input type="text" id="address" class="form-control" required>
+                            <label for="address">Адрес доставки *</label>
+                            <input type="text" id="address" name="Адрес" class="form-control" required placeholder="Введите адрес доставки">
                         </div>
 
                         <div class="form-group">
-                            <label for="comments">Комментарий к заказу(мы не читаем)</label>
-                            <textarea id="comments" class="form-control" rows="3"></textarea>
+                            <label for="comments">Комментарий к заказу (мы не читаем)</label>
+                            <textarea id="comments" name="Комментарий" class="form-control" rows="3" placeholder="Дополнительные пожелания к заказу"></textarea>
                         </div>
 
-                        <button type="submit" class="btn">Заказать доставку(мы её не доставим)</button>
+                        <!-- Скрытое поле для заказа из корзины -->
+                        <input type="hidden" id="orderItems" name="Заказ">
+
+                        <button type="submit" class="btn">Заказать доставку (мы её не доставим)</button>
                     </form>
                 </div>
             </div>
@@ -595,7 +610,6 @@
         </div>
     </div>
 </footer>
-
 <script src="script.js"></script>
 </body>
 </html>
