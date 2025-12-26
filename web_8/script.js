@@ -2,12 +2,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Элементы выпадающего меню
     const dropdowns = document.querySelectorAll('.dropdown');
-    
+
     // Открытие/закрытие выпадающего меню на десктопе
     dropdowns.forEach(dropdown => {
         const toggle = dropdown.querySelector('.dropdown-toggle');
         const menu = dropdown.querySelector('.dropdown-menu');
-        
+
         // На десктопе - по hover
         if (window.innerWidth > 768) {
             dropdown.addEventListener('mouseenter', () => {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 menu.style.visibility = 'visible';
                 menu.style.transform = 'translateY(0)';
             });
-            
+
             dropdown.addEventListener('mouseleave', () => {
                 menu.style.opacity = '0';
                 menu.style.visibility = 'hidden';
@@ -27,36 +27,36 @@ document.addEventListener('DOMContentLoaded', function() {
             toggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                
+
                 // Закрыть все другие выпадающие меню
                 dropdowns.forEach(other => {
                     if (other !== dropdown) {
                         other.classList.remove('active');
                     }
                 });
-                
+
                 // Переключить текущее
                 dropdown.classList.toggle('active');
             });
         }
     });
-    
+
     // Обработка кликов по пунктам выпадающего меню
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             const category = this.getAttribute('data-category');
             const pageId = this.getAttribute('href').substring(1);
-            
+
             // Перейти на страницу меню
             showPage(pageId);
-            
+
             // Активировать соответствующую категорию
             setTimeout(() => {
                 const categoryBtn = document.querySelector(`.category-btn[data-category="${category}"]`);
                 if (categoryBtn) {
                     categoryBtn.click();
-                    
+
                     // Прокрутить к меню
                     document.querySelector('.menu-categories').scrollIntoView({
                         behavior: 'smooth',
@@ -64,21 +64,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             }, 100);
-            
+
             // Закрыть выпадающее меню на мобильных
             if (window.innerWidth <= 768) {
                 const dropdown = this.closest('.dropdown');
                 if (dropdown) {
                     dropdown.classList.remove('active');
                 }
-                
+
                 // Закрыть мобильное меню
                 const navMenu = document.getElementById('mainNav');
                 navMenu.classList.remove('show');
             }
         });
     });
-    
+
     // Закрытие выпадающих меню при клике вне их
     document.addEventListener('click', function(e) {
         if (window.innerWidth <= 768) {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    
+
     // Закрытие меню при изменении размера окна
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-    
+
     // Обновление иконки стрелки при изменении размера
     function updateDropdownArrows() {
         const chevrons = document.querySelectorAll('.dropdown-toggle .fa-chevron-down');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     window.addEventListener('resize', updateDropdownArrows);
     updateDropdownArrows();
 });
@@ -207,13 +207,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Корзина
-    let cart = [];
+    let cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
 
     // Функция обновления корзины
     function updateCart() {
         const cartItemsContainer = document.getElementById('cartItems');
         const cartTotalPrice = document.getElementById('cartTotalPrice');
         const cartCount = document.getElementById('cartCount');
+
+        // Сохраняем корзину в localStorage
+        localStorage.setItem('pizzaCart', JSON.stringify(cart));
 
         if (!cartItemsContainer) return;
 
@@ -350,51 +353,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (cartModal) cartModal.style.display = 'none';
             if (cartOverlay) cartOverlay.style.display = 'none';
+            
+            // Заполняем поле заказа товарами из корзины
+            const orderItemsField = document.getElementById('orderItems');
+            if (orderItemsField) {
+                orderItemsField.value = getCartItemsAsText();
+            }
         });
     }
-
-    // Обработка формы заказа
-    const orderForm = document.getElementById('orderForm');
-    if (orderForm) {
-        orderForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            if (cart.length === 0) {
-                alert('Корзина пуста! Добавьте товары в корзину.');
-                return;
-            }
-
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            const comments = document.getElementById('comments').value;
-
-            // Формировать список товаров
-            let orderDetails = 'Ваш заказ:\n\n';
-            cart.forEach(item => {
-                orderDetails += `${item.name} - ${item.quantity} шт. × ${item.price} ₽ = ${item.quantity * item.price} ₽\n`;
-            });
-
-            const cartTotalPrice = document.getElementById('cartTotalPrice');
-            orderDetails += `\nИтого: ${cartTotalPrice ? cartTotalPrice.textContent : '0'} ₽`;
-            orderDetails += `\n\nДанные для доставки:`;
-            orderDetails += `\nИмя: ${name}`;
-            orderDetails += `\nТелефон: ${phone}`;
-            orderDetails += `\nАдрес: ${address}`;
-            if (comments) {
-                orderDetails += `\nКомментарий: ${comments}`;
-            }
-
-            alert(`Спасибо за заказ, ${name}!\n\n${orderDetails}\n\nМы перезвоним вам в течение 5 минут для подтверждения заказа.`);
-
-            // Очистить корзину и форму
-            cart = [];
-            updateCart();
-            orderForm.reset();
-
-            // Вернуться на главную страницу
-            showPage('home');
+    
+    // Функция для получения товаров из корзины в виде текста
+    function getCartItemsAsText() {
+        if (cart.length === 0) return '';
+        
+        let itemsText = 'Заказ из корзины:\n\n';
+        cart.forEach(item => {
+            itemsText += `${item.name} - ${item.quantity} шт. × ${item.price} ₽ = ${item.price * item.quantity} ₽\n`;
         });
+        
+        // Добавляем общую сумму
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        itemsText += `\nОбщая сумма: ${total} ₽`;
+        
+        return itemsText;
     }
 
     // Функция показа уведомления
@@ -426,11 +407,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Показать главную страницу по умолчанию
     showPage('home');
 });
-// Форма трудоустройства с отправкой в Telegram
+
+// Форма трудоустройства с отправкой через Formspree
 document.addEventListener('DOMContentLoaded', function() {
-    // Конфигурация Telegram бота
-    const TELEGRAM_BOT_TOKEN = '8582441779:AAEaxpo9u330uomaFc75Wk5OseKncQ2scwk';
-    const TELEGRAM_CHAT_ID = '1449136849';
+    // ID формы Formspree (ЗАМЕНИТЕ НА СВОЙ)
+    const FORMSPREE_FORM_ID = 'YOUR_FORMSPREE_ID';
 
     // Элементы формы трудоустройства
     const openJobFormBtn = document.getElementById('openJobFormBtn');
@@ -554,8 +535,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Обработка отправки формы
+    // Обработка отправки формы через Formspree
     if (jobForm) {
+        // Устанавливаем правильный action для Formspree
+        if (!jobForm.getAttribute('action')) {
+            jobForm.setAttribute('action', `https://formspree.io/f/${FORMSPREE_FORM_ID}`);
+        }
+
         jobForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -564,16 +550,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Собираем данные формы
-            const formData = new FormData(jobForm);
-            const formDataObject = {};
-
-            for (let [key, value] of formData.entries()) {
-                formDataObject[key] = value;
-            }
-
-            // Добавляем дату отправки
-            formDataObject.timestamp = new Date().toLocaleString('ru-RU');
+            // Добавляем скрытые поля для Formspree
+            addFormspreeHiddenFields(this);
 
             // Показываем индикатор загрузки
             const submitBtn = jobForm.querySelector('button[type="submit"]');
@@ -590,21 +568,27 @@ document.addEventListener('DOMContentLoaded', function() {
             // Показываем статус отправки
             const statusDiv = document.createElement('div');
             statusDiv.className = 'form-status loading';
-            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка заявки в Telegram...';
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка заявки...';
             jobForm.appendChild(statusDiv);
 
             try {
                 // Сохраняем данные в localStorage
+                const formData = new FormData(jobForm);
+                const formDataObject = {};
+                for (let [key, value] of formData.entries()) {
+                    formDataObject[key] = value;
+                }
+                formDataObject.timestamp = new Date().toLocaleString('ru-RU');
                 await saveToLocalStorage(formDataObject);
 
-                // Отправляем в Telegram
-                await sendToTelegram(formDataObject);
+                // Отправляем форму через Formspree
+                await sendToFormspree(jobForm);
 
                 // Показываем успешное сообщение
                 statusDiv.className = 'form-status success';
                 statusDiv.innerHTML = `
                     <i class="fas fa-check-circle"></i> Заявка успешно отправлена!<br><br>
-                    <small>Мы свяжемся с вами в течение 3 рабочих дней.</small>
+                    <small>Мы не свяжемся с вами в ближайшее время.</small>
                 `;
 
                 // Очищаем форму через 3 секунды
@@ -621,7 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusDiv.className = 'form-status error';
                 statusDiv.innerHTML = `
                     <i class="fas fa-exclamation-circle"></i> Ошибка отправки!<br><br>
-                    <small>Пожалуйста, свяжитесь с нами по телефону: +7 (495) 789-01-23</small>
+                    <small>Пожалуйста, попробуйте еще раз или свяжитесь с нами по телефону.</small>
                 `;
             } finally {
                 // Восстанавливаем кнопку
@@ -629,6 +613,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.disabled = false;
             }
         });
+    }
+
+    // Функция для добавления скрытых полей Formspree
+    function addFormspreeHiddenFields(form) {
+        // Добавляем скрытые поля для Formspree
+        if (!form.querySelector('[name="_subject"]')) {
+            const subjectField = document.createElement('input');
+            subjectField.type = 'hidden';
+            subjectField.name = '_subject';
+            subjectField.value = 'Новая заявка на вакансию - ПиццаКУБ';
+            form.appendChild(subjectField);
+        }
+
+        if (!form.querySelector('[name="_language"]')) {
+            const languageField = document.createElement('input');
+            languageField.type = 'hidden';
+            languageField.name = '_language';
+            languageField.value = 'ru';
+            form.appendChild(languageField);
+        }
+
+        if (!form.querySelector('[name="_gotcha"]')) {
+            const gotchaField = document.createElement('input');
+            gotchaField.type = 'text';
+            gotchaField.name = '_gotcha';
+            gotchaField.style.display = 'none';
+            form.appendChild(gotchaField);
+        }
     }
 
     // Функция валидации формы
@@ -673,7 +685,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция сохранения в localStorage
     async function saveToLocalStorage(formData) {
-        // Сохраняем данные в localStorage
         const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
         formData.localTimestamp = new Date().toISOString();
         formData.id = Date.now();
@@ -681,68 +692,29 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('jobApplications', JSON.stringify(applications));
 
         console.log('Заявка сохранена в localStorage:', formData);
-
         return Promise.resolve();
     }
 
-    // Функция отправки в Telegram
-    async function sendToTelegram(formData) {
-        // Формируем сообщение для Telegram
-        const message = formatTelegramMessage(formData);
-
-        // Отправляем сообщение в Telegram
-        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    // Функция отправки через Formspree
+    async function sendToFormspree(form) {
+        const formData = new FormData(form);
+        
+        const response = await fetch(form.action, {
             method: 'POST',
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: message,
-                parse_mode: 'HTML',
-                disable_web_page_preview: true
-            })
+                'Accept': 'application/json'
+            }
         });
 
         const result = await response.json();
 
         if (!response.ok) {
-            throw new Error(`Telegram API error: ${result.description || 'Unknown error'}`);
+            throw new Error(`Formspree error: ${result.error || 'Unknown error'}`);
         }
 
-        console.log('Сообщение отправлено в Telegram:', result);
+        console.log('Сообщение отправлено через Formspree:', result);
         return result;
-    }
-
-    // Функция форматирования сообщения для Telegram
-    function formatTelegramMessage(formData) {
-        return `🎯 <b>НОВАЯ ЗАЯВКА НА РАБОТУ</b>
-
-👤 <b>Кандидат:</b> ${formData.fio || 'Не указано'}
-📅 <b>Дата рождения:</b> ${formData.birthdate || 'Не указано'}
-🏙️ <b>Город:</b> ${formData.city || 'Не указано'}
-
-📞 <b>Телефон:</b> ${formData.phone || 'Не указано'}
-📧 <b>Email:</b> ${formData.email || 'Не указано'}
-
-💼 <b>Должность:</b> ${formData.position || 'Не указано'}
-⏰ <b>График:</b> ${formData.schedule || 'Не указано'}
-
-📊 <b>Опыт работы:</b>
-${formData.experience || 'Не указано'}
-
-🎓 <b>Образование:</b>
-${formData.education || 'Не указано'}
-
-🛠️ <b>Навыки:</b>
-${formData.skills || 'Не указано'}
-
-✅ <b>Готов к собеседованию:</b> ${formData.ready_for_interview ? 'Да' : 'Нет'}
-
-⏱️ <b>Отправлено:</b> ${formData.timestamp}
-🆔 <b>ID заявки:</b> ${formData.id || 'N/A'}
-
-#заявка #работа #пиццерия`;
     }
 
     // Инициализация даты рождения (устанавливаем максимальную дату - 16 лет назад)
@@ -756,18 +728,183 @@ ${formData.skills || 'Не указано'}
         birthdateInput.title = 'Минимальный возраст: 16 лет';
     }
 
-    // Добавляем иконку Telegram в форму для наглядности
+    // Добавляем иконку Formspree в форму для наглядности
     const formTitle = document.querySelector('.job-form-section h3');
     if (formTitle) {
-        const telegramIcon = document.createElement('i');
-        telegramIcon.className = 'fab fa-telegram-plane';
-        telegramIcon.style.cssText = `
-            color: #0088cc;
+        const formspreeIcon = document.createElement('i');
+        formspreeIcon.className = 'fas fa-paper-plane';
+        formspreeIcon.style.cssText = `
+            color: #3b82f6;
             margin-left: 10px;
             font-size: 20px;
         `;
-        telegramIcon.title = 'Заявки отправляются в Telegram';
-        formTitle.appendChild(telegramIcon);
+        formspreeIcon.title = 'Заявки отправляются через Formspree';
+        formTitle.appendChild(formspreeIcon);
     }
 });
 
+// Обработка формы доставки через Formspree
+document.addEventListener('DOMContentLoaded', function() {
+    // ID формы Formspree для доставки (ЗАМЕНИТЕ НА СВОЙ)
+    const FORMSPREE_DELIVERY_ID = 'mwvkknkk';
+    
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        // Устанавливаем правильный action для Formspree
+        if (!orderForm.getAttribute('action')) {
+            orderForm.setAttribute('action', `https://formspree.io/f/${FORMSPREE_DELIVERY_ID}`);
+        }
+        
+        orderForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Получаем корзину из localStorage
+            let cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
+            
+            if (cart.length === 0) {
+                alert('Корзина пуста! Добавьте товары в корзину.');
+                return;
+            }
+
+            // Добавляем товары из корзины в поле заказа
+            const orderItemsField = document.getElementById('orderItems');
+            if (!orderItemsField) {
+                // Создаем скрытое поле для заказа
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'Заказ';
+                hiddenField.id = 'orderItems';
+                orderForm.appendChild(hiddenField);
+            }
+            
+            document.getElementById('orderItems').value = getOrderDetails(cart);
+
+            // Показываем индикатор загрузки
+            const submitBtn = orderForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Оформление...';
+            submitBtn.disabled = true;
+
+            try {
+                // Отправляем форму через Formspree
+                await sendDeliveryToFormspree(orderForm);
+
+                // Успешная отправка
+                alert('Ваш заказ успешно оформлен! Мы его не доставим.');
+
+                // Очищаем корзину
+                cart = [];
+                localStorage.setItem('pizzaCart', JSON.stringify(cart));
+                updateCartCount();
+                
+                // Очищаем форму
+                orderForm.reset();
+
+                // Вернуться на главную страницу
+                showPage('home');
+
+            } catch (error) {
+                console.error('Ошибка отправки заказа:', error);
+                alert('Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте еще раз.');
+            } finally {
+                // Восстанавливаем кнопку
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Функция для форматирования деталей заказа
+    function getOrderDetails(cart) {
+        let orderDetails = 'ЗАКАЗ:\n\n';
+        let total = 0;
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            orderDetails += `${item.name} - ${item.quantity} шт. × ${item.price} ₽ = ${itemTotal} ₽\n`;
+        });
+        
+        orderDetails += `\nИТОГО: ${total} ₽`;
+        return orderDetails;
+    }
+    
+    // Функция отправки формы доставки через Formspree
+    async function sendDeliveryToFormspree(form) {
+        // Добавляем скрытые поля для Formspree
+        if (!form.querySelector('[name="_subject"]')) {
+            const subjectField = document.createElement('input');
+            subjectField.type = 'hidden';
+            subjectField.name = '_subject';
+            subjectField.value = 'Новый заказ доставки - ПиццаКУБ';
+            form.appendChild(subjectField);
+        }
+
+        if (!form.querySelector('[name="_language"]')) {
+            const languageField = document.createElement('input');
+            languageField.type = 'hidden';
+            languageField.name = '_language';
+            languageField.value = 'ru';
+            form.appendChild(languageField);
+        }
+
+        const formData = new FormData(form);
+        
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`Formspree delivery error: ${result.error || 'Unknown error'}`);
+        }
+
+        console.log('Заказ отправлен через Formspree:', result);
+        return result;
+    }
+    
+    // Функция обновления счетчика корзины
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountElement = document.getElementById('cartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+        }
+    }
+    
+    // Объявляем функцию showPage, если она еще не объявлена
+    if (typeof showPage !== 'function') {
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            const pageToShow = document.getElementById(pageId);
+            if (pageToShow) {
+                pageToShow.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+        }
+    }
+});
+
+// Объявление глобальных функций, если они используются в других частях кода
+if (typeof showPage !== 'function') {
+    window.showPage = function(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.style.display = 'none';
+        });
+        
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            pageToShow.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    };
+}
