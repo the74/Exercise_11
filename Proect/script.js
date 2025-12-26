@@ -313,22 +313,42 @@ document.addEventListener('DOMContentLoaded', function() {
     // Показать главную страницу по умолчанию
     showPage('home');
 });
-// Форма трудоустройства с отправкой в Telegram
 document.addEventListener('DOMContentLoaded', function() {
-    // Конфигурация Telegram бота
-    const TELEGRAM_BOT_TOKEN = '8582441779:AAEaxpo9u330uomaFc75Wk5OseKncQ2scwk';
-    const TELEGRAM_CHAT_ID = '1449136849';
-
-    // Элементы формы трудоустройства
-    const openJobFormBtn = document.getElementById('openJobFormBtn');
-    const jobFormContainer = document.getElementById('jobFormContainer');
-    const closeJobFormBtn = document.getElementById('closeJobFormBtn');
-    const jobForm = document.getElementById('jobForm');
-
-    // Открытие формы трудоустройства
-    if (openJobFormBtn && jobFormContainer) {
-        openJobFormBtn.addEventListener('click', function() {
-            jobFormContainer.style.display = 'block';
+    // Обработчик для формы вакансий
+    const vacancyForm = document.getElementById('vacancy-form');
+    if (vacancyForm) {
+        vacancyForm.addEventListener('submit', function(e) {
+            // Можно добавить прелоадер
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            // Formspree автоматически обработает отправку
+            // Через 3 секунды вернем обычное состояние кнопки
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+    
+    // Обработчик для формы доставки
+    const deliveryForm = document.getElementById('delivery-form');
+    if (deliveryForm) {
+        deliveryForm.addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Оформляем...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+});
 
             // Плавная прокрутка к форме
             jobFormContainer.scrollIntoView({
@@ -657,3 +677,4 @@ ${formData.skills || 'Не указано'}
         formTitle.appendChild(telegramIcon);
     }
 });
+
