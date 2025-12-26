@@ -377,45 +377,7 @@
     </button>
 </form>
 
-<script>
-// Обработка отправки формы
-document.addEventListener('DOMContentLoaded', function() {
-    // Обработчик для формы вакансий
-    const vacancyForm = document.getElementById('vacancy-form');
-    if (vacancyForm) {
-        vacancyForm.addEventListener('submit', function(e) {
-            // Можно добавить прелоадер
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Отправка...';
-            submitBtn.disabled = true;
-            
-            // Formspree автоматически обработает отправку
-            // Через 3 секунды вернем обычное состояние кнопки
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 3000);
-        });
-    }
-    
-    // Обработчик для формы доставки
-    const deliveryForm = document.getElementById('delivery-form');
-    if (deliveryForm) {
-        deliveryForm.addEventListener('submit', function(e) {
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Оформляем...';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 3000);
-        });
-    }
-});
-</script>
+
                                 <button type="button" class="btn btn-secondary" id="closeJobFormBtn">
                                     <i class="fas fa-times"></i> Отмена
                                 </button>
