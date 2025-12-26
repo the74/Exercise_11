@@ -1,0 +1,910 @@
+// Выпадающее меню
+document.addEventListener('DOMContentLoaded', function() {
+    // Элементы выпадающего меню
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // Открытие/закрытие выпадающего меню на десктопе
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        const menu = dropdown.querySelector('.dropdown-menu');
+
+        // На десктопе - по hover
+        if (window.innerWidth > 768) {
+            dropdown.addEventListener('mouseenter', () => {
+                menu.style.opacity = '1';
+                menu.style.visibility = 'visible';
+                menu.style.transform = 'translateY(0)';
+            });
+
+            dropdown.addEventListener('mouseleave', () => {
+                menu.style.opacity = '0';
+                menu.style.visibility = 'hidden';
+                menu.style.transform = 'translateY(-10px)';
+            });
+        }
+        // На мобильных - по клику
+        else {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Закрыть все другие выпадающие меню
+                dropdowns.forEach(other => {
+                    if (other !== dropdown) {
+                        other.classList.remove('active');
+                    }
+                });
+
+                // Переключить текущее
+                dropdown.classList.toggle('active');
+            });
+        }
+    });
+
+    // Обработка кликов по пунктам выпадающего меню
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const category = this.getAttribute('data-category');
+            const pageId = this.getAttribute('href').substring(1);
+
+            // Перейти на страницу меню
+            showPage(pageId);
+
+            // Активировать соответствующую категорию
+            setTimeout(() => {
+                const categoryBtn = document.querySelector(`.category-btn[data-category="${category}"]`);
+                if (categoryBtn) {
+                    categoryBtn.click();
+
+                    // Прокрутить к меню
+                    document.querySelector('.menu-categories').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }, 100);
+
+            // Закрыть выпадающее меню на мобильных
+            if (window.innerWidth <= 768) {
+                const dropdown = this.closest('.dropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+
+                // Закрыть мобильное меню
+                const navMenu = document.getElementById('mainNav');
+                navMenu.classList.remove('show');
+            }
+        });
+    });
+
+    // Закрытие выпадающих меню при клике вне их
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        }
+    });
+
+    // Закрытие меню при изменении размера окна
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+
+    // Обновление иконки стрелки при изменении размера
+    function updateDropdownArrows() {
+        const chevrons = document.querySelectorAll('.dropdown-toggle .fa-chevron-down');
+        chevrons.forEach(chevron => {
+            if (window.innerWidth <= 768) {
+                chevron.style.transform = 'none';
+            }
+        });
+    }
+
+    window.addEventListener('resize', updateDropdownArrows);
+    updateDropdownArrows();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Сайт загружен!');
+
+    function showPage(pageId) {
+        console.log('Показываем страницу:', pageId);
+
+        // Скрыть все страницы
+        document.querySelectorAll('.page').forEach(page => {
+            page.style.display = 'none';
+        });
+
+        // Показать выбранную страницу
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            pageToShow.style.display = 'block';
+
+            // Прокрутить вверх
+            window.scrollTo(0, 0);
+        }
+
+        // Обновить активную ссылку в навигации
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + pageId) {
+                link.classList.add('active');
+            }
+        });
+
+        // Обновить активную ссылку в футере
+        document.querySelectorAll('.footer-nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + pageId) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Обработчик для всех навигационных ссылок
+    function handleNavigationClick(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+
+        if (href.startsWith('#')) {
+            const pageId = href.substring(1);
+            showPage(pageId);
+
+            // Закрыть мобильное меню
+            const navMenu = document.getElementById('mainNav');
+            if (navMenu.classList.contains('show')) {
+                navMenu.classList.remove('show');
+            }
+        }
+    }
+
+    // Добавить обработчики для навигационных ссылок
+    document.querySelectorAll('.nav-link, .footer-nav-link, .view-menu-btn, .about-order-btn').forEach(link => {
+        link.addEventListener('click', handleNavigationClick);
+    });
+
+    // Мобильное меню
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+
+    if (mobileMenuBtn && mainNav) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mainNav.classList.toggle('show');
+        });
+    }
+
+    // Фильтрация меню
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const menuItems = document.querySelectorAll('.pizza-card[data-category]');
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Удалить активный класс у всех кнопок
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            // Добавить активный класс текущей кнопке
+            this.classList.add('active');
+
+            const category = this.getAttribute('data-category');
+
+            // Показать/скрыть элементы меню
+            menuItems.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Корзина
+    let cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
+
+    // Функция обновления корзины
+    function updateCart() {
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalPrice = document.getElementById('cartTotalPrice');
+        const cartCount = document.getElementById('cartCount');
+
+        // Сохраняем корзину в localStorage
+        localStorage.setItem('pizzaCart', JSON.stringify(cart));
+
+        if (!cartItemsContainer) return;
+
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        let totalCount = 0;
+
+        cart.forEach((item, index) => {
+            total += item.price * item.quantity;
+            totalCount += item.quantity;
+
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <div class="cart-item-info">
+                    <h4>${item.name}</h4>
+                    <div class="cart-item-price">${item.price} ₽ × ${item.quantity}</div>
+                </div>
+                <div class="cart-item-actions">
+                    <button class="decrease-item" data-index="${index}">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="increase-item" data-index="${index}">+</button>
+                    <button class="remove-item" data-index="${index}">&times;</button>
+                </div>
+            `;
+            cartItemsContainer.appendChild(cartItem);
+        });
+
+        if (cartTotalPrice) cartTotalPrice.textContent = total;
+        if (cartCount) cartCount.textContent = totalCount;
+
+        // Добавить обработчики для кнопок в корзине
+        document.querySelectorAll('.decrease-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                } else {
+                    cart.splice(index, 1);
+                }
+                updateCart();
+            });
+        });
+
+        document.querySelectorAll('.increase-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                cart[index].quantity++;
+                updateCart();
+            });
+        });
+
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                cart.splice(index, 1);
+                updateCart();
+            });
+        });
+    }
+
+    // Добавление товаров в корзину
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const name = this.getAttribute('data-name');
+            const price = parseInt(this.getAttribute('data-price'));
+
+            // Проверить, есть ли уже такой товар в корзине
+            const existingItemIndex = cart.findIndex(item => item.name === name);
+
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity++;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+
+            // Показать уведомление
+            showNotification(`${name} добавлен в корзину!`);
+        });
+    });
+
+    // Управление корзиной
+    const cartIcon = document.getElementById('cartIcon');
+    const cartModal = document.getElementById('cartModal');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const closeCart = document.getElementById('closeCart');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const clearCartBtn = document.getElementById('clearCartBtn');
+
+    if (cartIcon && cartModal) {
+        cartIcon.addEventListener('click', function() {
+            cartModal.style.display = 'block';
+            if (cartOverlay) cartOverlay.style.display = 'block';
+        });
+    }
+
+    if (closeCart) {
+        closeCart.addEventListener('click', function() {
+            if (cartModal) cartModal.style.display = 'none';
+            if (cartOverlay) cartOverlay.style.display = 'none';
+        });
+    }
+
+    if (cartOverlay) {
+        cartOverlay.addEventListener('click', function() {
+            if (cartModal) cartModal.style.display = 'none';
+            this.style.display = 'none';
+        });
+    }
+
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', function() {
+            if (cart.length > 0 && confirm('Очистить корзину?')) {
+                cart = [];
+                updateCart();
+            }
+        });
+    }
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Корзина пуста! Добавьте товары в корзину.');
+                return;
+            }
+
+            showPage('contact');
+
+            if (cartModal) cartModal.style.display = 'none';
+            if (cartOverlay) cartOverlay.style.display = 'none';
+            
+            // Заполняем поле заказа товарами из корзины
+            const orderItemsField = document.getElementById('orderItems');
+            if (orderItemsField) {
+                orderItemsField.value = getCartItemsAsText();
+            }
+        });
+    }
+    
+    // Функция для получения товаров из корзины в виде текста
+    function getCartItemsAsText() {
+        if (cart.length === 0) return '';
+        
+        let itemsText = 'Заказ из корзины:\n\n';
+        cart.forEach(item => {
+            itemsText += `${item.name} - ${item.quantity} шт. × ${item.price} ₽ = ${item.price * item.quantity} ₽\n`;
+        });
+        
+        // Добавляем общую сумму
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        itemsText += `\nОбщая сумма: ${total} ₽`;
+        
+        return itemsText;
+    }
+
+    // Функция показа уведомления
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            font-weight: 600;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 3000);
+    }
+
+    // Инициализация корзины
+    updateCart();
+
+    // Показать главную страницу по умолчанию
+    showPage('home');
+});
+
+// Форма трудоустройства с отправкой через Formspree
+document.addEventListener('DOMContentLoaded', function() {
+    // ID формы Formspree (ЗАМЕНИТЕ НА СВОЙ)
+    const FORMSPREE_FORM_ID = 'YOUR_FORMSPREE_ID';
+
+    // Элементы формы трудоустройства
+    const openJobFormBtn = document.getElementById('openJobFormBtn');
+    const jobFormContainer = document.getElementById('jobFormContainer');
+    const closeJobFormBtn = document.getElementById('closeJobFormBtn');
+    const jobForm = document.getElementById('jobForm');
+
+    // Открытие формы трудоустройства
+    if (openJobFormBtn && jobFormContainer) {
+        openJobFormBtn.addEventListener('click', function() {
+            jobFormContainer.style.display = 'block';
+
+            // Плавная прокрутка к форме
+            jobFormContainer.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    }
+
+    // Закрытие формы трудоустройства
+    if (closeJobFormBtn && jobFormContainer) {
+        closeJobFormBtn.addEventListener('click', function() {
+            jobFormContainer.style.display = 'none';
+        });
+    }
+
+    // Валидация телефона
+    const jobPhoneInput = document.getElementById('job-phone');
+    if (jobPhoneInput) {
+        jobPhoneInput.addEventListener('input', function(e) {
+            let input = e.target.value.replace(/\D/g, '');
+
+            if (input.length > 0) {
+                // Формат: +7 (XXX) XXX-XX-XX
+                if (input[0] === '7' || input[0] === '8') {
+                    input = input.substring(1);
+                }
+
+                let formatted = '+7 ';
+
+                if (input.length > 0) {
+                    formatted += '(' + input.substring(0, 3);
+                }
+                if (input.length >= 3) {
+                    formatted += ') ' + input.substring(3, 6);
+                }
+                if (input.length >= 6) {
+                    formatted += '-' + input.substring(6, 8);
+                }
+                if (input.length >= 8) {
+                    formatted += '-' + input.substring(8, 10);
+                }
+
+                this.value = formatted;
+            }
+        });
+
+        // Проверка при потере фокуса
+        jobPhoneInput.addEventListener('blur', function() {
+            const phoneRegex = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+            if (this.value && !phoneRegex.test(this.value)) {
+                this.style.borderColor = '#e74c3c';
+                showFieldError(this, 'Введите телефон в формате: +7 (999) 123-45-67');
+            } else {
+                this.style.borderColor = '#ddd';
+                clearFieldError(this);
+            }
+        });
+    }
+
+    // Валидация email
+    const jobEmailInput = document.getElementById('job-email');
+    if (jobEmailInput) {
+        jobEmailInput.addEventListener('blur', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (this.value && !emailRegex.test(this.value)) {
+                this.style.borderColor = '#e74c3c';
+                showFieldError(this, 'Введите корректный email адрес');
+            } else {
+                this.style.borderColor = '#ddd';
+                clearFieldError(this);
+            }
+        });
+    }
+
+    // Валидация ФИО
+    const jobNameInput = document.getElementById('job-name');
+    if (jobNameInput) {
+        jobNameInput.addEventListener('blur', function() {
+            if (this.value.trim().split(' ').length < 2) {
+                this.style.borderColor = '#e74c3c';
+                showFieldError(this, 'Введите фамилию, имя и отчество');
+            } else {
+                this.style.borderColor = '#ddd';
+                clearFieldError(this);
+            }
+        });
+    }
+
+    // Функции для показа ошибок
+    function showFieldError(field, message) {
+        clearFieldError(field);
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.style.cssText = `
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+        `;
+        errorDiv.textContent = message;
+
+        field.parentNode.appendChild(errorDiv);
+    }
+
+    function clearFieldError(field) {
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+    }
+
+    // Обработка отправки формы через Formspree
+    if (jobForm) {
+        // Устанавливаем правильный action для Formspree
+        if (!jobForm.getAttribute('action')) {
+            jobForm.setAttribute('action', `https://formspree.io/f/${FORMSPREE_FORM_ID}`);
+        }
+
+        jobForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Проверка валидности формы
+            if (!validateForm()) {
+                return;
+            }
+
+            // Добавляем скрытые поля для Formspree
+            addFormspreeHiddenFields(this);
+
+            // Показываем индикатор загрузки
+            const submitBtn = jobForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+            submitBtn.disabled = true;
+
+            // Скрываем предыдущие статусы
+            const oldStatus = jobForm.querySelector('.form-status');
+            if (oldStatus) {
+                oldStatus.remove();
+            }
+
+            // Показываем статус отправки
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'form-status loading';
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка заявки...';
+            jobForm.appendChild(statusDiv);
+
+            try {
+                // Сохраняем данные в localStorage
+                const formData = new FormData(jobForm);
+                const formDataObject = {};
+                for (let [key, value] of formData.entries()) {
+                    formDataObject[key] = value;
+                }
+                formDataObject.timestamp = new Date().toLocaleString('ru-RU');
+                await saveToLocalStorage(formDataObject);
+
+                // Отправляем форму через Formspree
+                await sendToFormspree(jobForm);
+
+                // Показываем успешное сообщение
+                statusDiv.className = 'form-status success';
+                statusDiv.innerHTML = `
+                    <i class="fas fa-check-circle"></i> Заявка успешно отправлена!<br><br>
+                    <small>Мы не свяжемся с вами в ближайшее время.</small>
+                `;
+
+                // Очищаем форму через 3 секунды
+                setTimeout(() => {
+                    jobForm.reset();
+                    statusDiv.remove();
+                    jobFormContainer.style.display = 'none';
+                }, 3000);
+
+            } catch (error) {
+                console.error('Ошибка отправки:', error);
+
+                // Показываем сообщение об ошибке
+                statusDiv.className = 'form-status error';
+                statusDiv.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i> Ошибка отправки!<br><br>
+                    <small>Пожалуйста, попробуйте еще раз или свяжитесь с нами по телефону.</small>
+                `;
+            } finally {
+                // Восстанавливаем кнопку
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
+    // Функция для добавления скрытых полей Formspree
+    function addFormspreeHiddenFields(form) {
+        // Добавляем скрытые поля для Formspree
+        if (!form.querySelector('[name="_subject"]')) {
+            const subjectField = document.createElement('input');
+            subjectField.type = 'hidden';
+            subjectField.name = '_subject';
+            subjectField.value = 'Новая заявка на вакансию - ПиццаКУБ';
+            form.appendChild(subjectField);
+        }
+
+        if (!form.querySelector('[name="_language"]')) {
+            const languageField = document.createElement('input');
+            languageField.type = 'hidden';
+            languageField.name = '_language';
+            languageField.value = 'ru';
+            form.appendChild(languageField);
+        }
+
+        if (!form.querySelector('[name="_gotcha"]')) {
+            const gotchaField = document.createElement('input');
+            gotchaField.type = 'text';
+            gotchaField.name = '_gotcha';
+            gotchaField.style.display = 'none';
+            form.appendChild(gotchaField);
+        }
+    }
+
+    // Функция валидации формы
+    function validateForm() {
+        let isValid = true;
+
+        // Проверка обязательных полей
+        const requiredFields = jobForm.querySelectorAll('[required]');
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.borderColor = '#e74c3c';
+                showFieldError(field, 'Это поле обязательно для заполнения');
+                isValid = false;
+            }
+        });
+
+        // Проверка телефона
+        const phoneRegex = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+        if (jobPhoneInput.value && !phoneRegex.test(jobPhoneInput.value)) {
+            jobPhoneInput.style.borderColor = '#e74c3c';
+            showFieldError(jobPhoneInput, 'Введите телефон в формате: +7 (999) 123-45-67');
+            isValid = false;
+        }
+
+        // Проверка email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (jobEmailInput.value && !emailRegex.test(jobEmailInput.value)) {
+            jobEmailInput.style.borderColor = '#e74c3c';
+            showFieldError(jobEmailInput, 'Введите корректный email адрес');
+            isValid = false;
+        }
+
+        // Проверка ФИО
+        if (jobNameInput.value && jobNameInput.value.trim().split(' ').length < 2) {
+            jobNameInput.style.borderColor = '#e74c3c';
+            showFieldError(jobNameInput, 'Введите фамилию, имя и отчество');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Функция сохранения в localStorage
+    async function saveToLocalStorage(formData) {
+        const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+        formData.localTimestamp = new Date().toISOString();
+        formData.id = Date.now();
+        applications.push(formData);
+        localStorage.setItem('jobApplications', JSON.stringify(applications));
+
+        console.log('Заявка сохранена в localStorage:', formData);
+        return Promise.resolve();
+    }
+
+    // Функция отправки через Formspree
+    async function sendToFormspree(form) {
+        const formData = new FormData(form);
+        
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`Formspree error: ${result.error || 'Unknown error'}`);
+        }
+
+        console.log('Сообщение отправлено через Formspree:', result);
+        return result;
+    }
+
+    // Инициализация даты рождения (устанавливаем максимальную дату - 16 лет назад)
+    const birthdateInput = document.getElementById('job-birthdate');
+    if (birthdateInput) {
+        const today = new Date();
+        const maxDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+        birthdateInput.max = maxDate.toISOString().split('T')[0];
+
+        // Устанавливаем подсказку
+        birthdateInput.title = 'Минимальный возраст: 16 лет';
+    }
+
+    // Добавляем иконку Formspree в форму для наглядности
+    const formTitle = document.querySelector('.job-form-section h3');
+    if (formTitle) {
+        const formspreeIcon = document.createElement('i');
+        formspreeIcon.className = 'fas fa-paper-plane';
+        formspreeIcon.style.cssText = `
+            color: #3b82f6;
+            margin-left: 10px;
+            font-size: 20px;
+        `;
+        formspreeIcon.title = 'Заявки отправляются через Formspree';
+        formTitle.appendChild(formspreeIcon);
+    }
+});
+
+// Обработка формы доставки через Formspree
+document.addEventListener('DOMContentLoaded', function() {
+    // ID формы Formspree для доставки (ЗАМЕНИТЕ НА СВОЙ)
+    const FORMSPREE_DELIVERY_ID = 'mwvkknkk';
+    
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        // Устанавливаем правильный action для Formspree
+        if (!orderForm.getAttribute('action')) {
+            orderForm.setAttribute('action', `https://formspree.io/f/${FORMSPREE_DELIVERY_ID}`);
+        }
+        
+        orderForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Получаем корзину из localStorage
+            let cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
+            
+            if (cart.length === 0) {
+                alert('Корзина пуста! Добавьте товары в корзину.');
+                return;
+            }
+
+            // Добавляем товары из корзины в поле заказа
+            const orderItemsField = document.getElementById('orderItems');
+            if (!orderItemsField) {
+                // Создаем скрытое поле для заказа
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'Заказ';
+                hiddenField.id = 'orderItems';
+                orderForm.appendChild(hiddenField);
+            }
+            
+            document.getElementById('orderItems').value = getOrderDetails(cart);
+
+            // Показываем индикатор загрузки
+            const submitBtn = orderForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Оформление...';
+            submitBtn.disabled = true;
+
+            try {
+                // Отправляем форму через Formspree
+                await sendDeliveryToFormspree(orderForm);
+
+                // Успешная отправка
+                alert('Ваш заказ успешно оформлен! Мы его не доставим.');
+
+                // Очищаем корзину
+                cart = [];
+                localStorage.setItem('pizzaCart', JSON.stringify(cart));
+                updateCartCount();
+                
+                // Очищаем форму
+                orderForm.reset();
+
+                // Вернуться на главную страницу
+                showPage('home');
+
+            } catch (error) {
+                console.error('Ошибка отправки заказа:', error);
+                alert('Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте еще раз.');
+            } finally {
+                // Восстанавливаем кнопку
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Функция для форматирования деталей заказа
+    function getOrderDetails(cart) {
+        let orderDetails = 'ЗАКАЗ:\n\n';
+        let total = 0;
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            orderDetails += `${item.name} - ${item.quantity} шт. × ${item.price} ₽ = ${itemTotal} ₽\n`;
+        });
+        
+        orderDetails += `\nИТОГО: ${total} ₽`;
+        return orderDetails;
+    }
+    
+    // Функция отправки формы доставки через Formspree
+    async function sendDeliveryToFormspree(form) {
+        // Добавляем скрытые поля для Formspree
+        if (!form.querySelector('[name="_subject"]')) {
+            const subjectField = document.createElement('input');
+            subjectField.type = 'hidden';
+            subjectField.name = '_subject';
+            subjectField.value = 'Новый заказ доставки - ПиццаКУБ';
+            form.appendChild(subjectField);
+        }
+
+        if (!form.querySelector('[name="_language"]')) {
+            const languageField = document.createElement('input');
+            languageField.type = 'hidden';
+            languageField.name = '_language';
+            languageField.value = 'ru';
+            form.appendChild(languageField);
+        }
+
+        const formData = new FormData(form);
+        
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`Formspree delivery error: ${result.error || 'Unknown error'}`);
+        }
+
+        console.log('Заказ отправлен через Formspree:', result);
+        return result;
+    }
+    
+    // Функция обновления счетчика корзины
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountElement = document.getElementById('cartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+        }
+    }
+    
+    // Объявляем функцию showPage, если она еще не объявлена
+    if (typeof showPage !== 'function') {
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            const pageToShow = document.getElementById(pageId);
+            if (pageToShow) {
+                pageToShow.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+        }
+    }
+});
+
+// Объявление глобальных функций, если они используются в других частях кода
+if (typeof showPage !== 'function') {
+    window.showPage = function(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.style.display = 'none';
+        });
+        
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            pageToShow.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    };
+}
