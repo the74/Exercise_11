@@ -312,7 +312,6 @@ nav a:hover:after, nav a.active:after {
 }
 
 .pizza-name {
-.pizza-name {
     font-size: 22px;
     font-weight: 700;
     color: #333;
@@ -1197,3 +1196,4 @@ textarea.form-control {
 .fa-telegram-plane {
     vertical-align: middle;
 }
+
