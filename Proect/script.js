@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusDiv.className = 'form-status error';
                 statusDiv.innerHTML = `
                     <i class="fas fa-exclamation-circle"></i> Ошибка отправки!<br><br>
-                    <small>Пожалуйста, свяжитесь с нами по телефону: +7 (495) 789-01-23</small>
+                    <small>Пожалуйста, свяжитесь с нами по телефону: +7 (928) 460-78-60</small>
                 `;
             } finally {
                 // Восстанавливаем кнопку
@@ -767,3 +767,4 @@ ${formData.skills || 'Не указано'}
         formTitle.appendChild(telegramIcon);
     }
 });
+
