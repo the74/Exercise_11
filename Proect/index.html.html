@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ПиццаКУБ - Лучшая пицца</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style_1.css">
-</head>
+<!-- Шапка сайта -->
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <i class="fas fa-pizza-slice logo-icon"></i>
+            <h1>Пицца<span>Мания</span></h1>
+        </div>
+        
+        <nav>
+            <ul id="mainNav">
+                <li><a href="#home" class="nav-link active">Главная</a></li>
+                
+                <!-- Выпадающее меню для Меню -->
+                <li class="dropdown">
+                    <a href="#menu" class="nav-link dropdown-toggle">
+                        Меню <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#menu" class="dropdown-item" data-category="pizza">Пиццы</a></li>
+                        <li><a href="#menu" class="dropdown-item" data-category="pasta">Паста</a></li>
+                        <li><a href="#menu" class="dropdown-item" data-category="salad">Салаты</a></li>
+                        <li><a href="#menu" class="dropdown-item" data-category="drink">Напитки</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#about" class="nav-link">О нас</a></li>
+                <li><a href="#contact" class="nav-link">Доставка</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
 <body>
 <!-- Шапка сайта -->
 <header>
