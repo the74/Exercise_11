@@ -52,133 +52,48 @@
     </div>
 </header>
 
-<!-- Главная страница -->
-<section id="home" class="page">
-    <!-- Герой секция с видео -->
-    <div class="hero">
-        <!-- Видео фон -->
-        <div class="video-background">
-            <video autoplay muted loop playsinline id="bgVideo">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-pizza-oven-close-up-42949-large.mp4" type="video/mp4">
-                Ваш браузер не поддерживает видео.
-            </video>
-            <!-- Затемнение поверх видео -->
-            <div class="video-overlay"></div>
-        </div>
-        
-        <div class="hero-content">
-            <h2>Вкуснейшая пицца в городе</h2>
-            <p>Готовим из свежих ингредиентов по традиционным и современным рецептам. Быстрая доставка и приятные цены!</p>
-            <a href="#menu" class="btn view-menu-btn">Смотреть меню</a>
-        </div>
-    </div>
-
-    <!-- Галерея-слайдер пицц -->
-    <div class="pizza-slider-section">
+    <!-- Популярные пиццы -->
+    <div class="popular-pizzas">
         <div class="container">
             <div class="section-title">
-                <h2>Наши лучшие пиццы</h2>
-                <p>Попробуйте самые популярные позиции из нашего меню</p>
+                <h2>Популярные пиццы</h2>
             </div>
-            
-            <div class="pizza-slider">
-                <!-- Слайды -->
-                <div class="slider-container">
-                    <div class="slider-track">
-                        <!-- Слайд 1 -->
-                        <div class="slide active">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                                <div class="slide-overlay"></div>
-                                <div class="slide-content">
-                                    <h3>Маргарита</h3>
-                                    <p>Классическая итальянская пицца с томатным соусом, моцареллой и свежим базиликом</p>
-                                    <div class="slide-price">550 ₽</div>
-                                    <button class="add-to-cart" data-name="Маргарита" data-price="550">Заказать</button>
-                                </div>
-                            </div>
+
+            <div class="pizza-grid">
+                <div class="pizza-card">
+                    <div class="pizza-img" style="background-image: url('02-13.jpg');"></div>
+                    <div class="pizza-content">
+                        <div class="pizza-header">
+                            <h3 class="pizza-name">Маргарита</h3>
+                            <span class="pizza-price">550 ₽</span>
                         </div>
-                        
-                        <!-- Слайд 2 -->
-                        <div class="slide">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                                <div class="slide-overlay"></div>
-                                <div class="slide-content">
-                                    <h3>Пепперони</h3>
-                                    <p>Острая пицца с колбасками пепперони, сыром моцарелла и томатным соусом</p>
-                                    <div class="slide-price">650 ₽</div>
-                                    <button class="add-to-cart" data-name="Пепперони" data-price="650">Заказать</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Слайд 3 -->
-                        <div class="slide">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                                <div class="slide-overlay"></div>
-                                <div class="slide-content">
-                                    <h3>4 сыра</h3>
-                                    <p>Пицца с моцареллой, горгонзолой, пармезаном и эмменталем</p>
-                                    <div class="slide-price">700 ₽</div>
-                                    <button class="add-to-cart" data-name="4 сыра" data-price="700">Заказать</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Слайд 4 -->
-                        <div class="slide">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                                <div class="slide-overlay"></div>
-                                <div class="slide-content">
-                                    <h3>Гавайская</h3>
-                                    <p>Пицца с курицей, ананасами и сыром моцарелла</p>
-                                    <div class="slide-price">680 ₽</div>
-                                    <button class="add-to-cart" data-name="Гавайская" data-price="680">Заказать</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Слайд 5 -->
-                        <div class="slide">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                                <div class="slide-overlay"></div>
-                                <div class="slide-content">
-                                    <h3>Мясная</h3>
-                                    <p>Пицца с беконом, ветчиной, пепперони и сыром моцарелла</p>
-                                    <div class="slide-price">750 ₽</div>
-                                    <button class="add-to-cart" data-name="Мясная" data-price="750">Заказать</button>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="pizza-desc">Классическая пицца с томатным соусом, моцареллой и свежим базиликом</p>
+                        <button class="add-to-cart" data-name="Маргарита" data-price="550">В корзину</button>
                     </div>
                 </div>
-                
-                <!-- Навигация слайдера -->
-                <div class="slider-nav">
-                    <button class="slider-prev">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    
-                    <div class="slider-dots">
-                        <span class="dot active" data-slide="0"></span>
-                        <span class="dot" data-slide="1"></span>
-                        <span class="dot" data-slide="2"></span>
-                        <span class="dot" data-slide="3"></span>
-                        <span class="dot" data-slide="4"></span>
+
+                <div class="pizza-card">
+                    <div class="pizza-img" style="background-image: url('02-12.jpg');"></div>
+                    <div class="pizza-content">
+                        <div class="pizza-header">
+                            <h3 class="pizza-name">Пепперони</h3>
+                            <span class="pizza-price">650 ₽</span>
+                        </div>
+                        <p class="pizza-desc">Острая пицца с колбасками пепперони и сыром моцарелла</p>
+                        <button class="add-to-cart" data-name="Пепперони" data-price="650">В корзину</button>
                     </div>
-                    
-                    <button class="slider-next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
                 </div>
-                
-                <!-- Автоплей контролы -->
-                <div class="slider-controls">
-                    <button class="slider-play active">
-                        <i class="fas fa-pause"></i>
-                    </button>
-                    <button class="slider-stop">
-                        <i class="fas fa-play"></i>
-                    </button>
+
+                <div class="pizza-card">
+                    <div class="pizza-img" style="background-image: url('02-11.jpg');"></div>
+                    <div class="pizza-content">
+                        <div class="pizza-header">
+                            <h3 class="pizza-name">4 сыра</h3>
+                            <span class="pizza-price">700 ₽</span>
+                        </div>
+                        <p class="pizza-desc">Пицца с моцареллой, горгонзолой, пармезаном и эмменталем</p>
+                        <button class="add-to-cart" data-name="4 сыра" data-price="700">В корзину</button>
+                    </div>
                 </div>
             </div>
         </div>
