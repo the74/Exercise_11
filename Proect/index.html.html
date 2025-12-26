@@ -296,99 +296,126 @@
                 </div>
             </div>
 
-            <!-- Форма для отклика на вакансию -->
-            <div class="job-form-container" id="jobFormContainer" style="display: none; margin-top: 50px;">
-                <div class="section-title">
-                    <h2>Откликнуться на вакансию</h2>
-                    <p>Заполните форму ниже, и мы не свяжемся с вами в ближайшее время</p>
-                </div>
+            <!-- Форма для вакансий -->
+<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="vacancy-form">
+    <!-- Скрытые поля для настройки Formspree -->
+    <input type="hidden" name="_subject" value="Новый отклик на вакансию с сайта ПиццаМания">
+    <input type="hidden" name="_language" value="ru">
+    
+    <h3>Заполните анкету</h3>
+    <p><em>* Поля, отмеченные звездочкой, обязательны для заполнения</em></p>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="name">Имя *</label>
+        <input type="text" id="name" name="Имя" required style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="phone">Телефон *</label>
+        <input type="tel" id="phone" name="Телефон" required style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="Email" required style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="vacancy">Вакансия *</label>
+        <select id="vacancy" name="Вакансия" required style="width: 100%; padding: 8px; margin-top: 5px;">
+            <option value="">Выберите вакансию</option>
+            <option value="Пиццамейкер">Пиццамейкер</option>
+            <option value="Курьер (с авто)">Курьер (с авто)</option>
+            <option value="Официант">Официант</option>
+            <option value="Кассир">Кассир</option>
+        </select>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="message">Дополнительная информация</label>
+        <textarea id="message" name="Сообщение" rows="4" style="width: 100%; padding: 8px; margin-top: 5px;"></textarea>
+    </div>
+    
+    <button type="submit" style="background-color: #4CAF50; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer;">
+        Отправить анкету
+    </button>
+    
+    <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+        После отправки формы мы с вами не свяжемся
+    </p>
+</form>
 
-                <div class="job-form-wrapper">
-                    <div class="job-form-section">
-                        <h3>Заполните анкету</h3>
-                        <form id="jobForm" class="job-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="job-name">Фамилия Имя Отчество *</label>
-                                    <input type="text" id="job-name" name="fio" class="form-control" required placeholder="Иванов Иван Иванович">
-                                </div>
-                            </div>
+<!-- Форма для доставки (внизу страницы) -->
+<form action="https://formspree.io/f/YOUR_FORM_ID_DELIVERY" method="POST" id="delivery-form">
+    <input type="hidden" name="_subject" value="Новый заказ доставки с сайта ПиццаМания">
+    <input type="hidden" name="_language" value="ru">
+    
+    <h3>Оформить доставку</h3>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="client-name">Ваше имя *</label>
+        <input type="text" id="client-name" name="Имя" required style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="client-phone">Телефон для связи *</label>
+        <input type="tel" id="client-phone" name="Телефон" required style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="delivery-address">Адрес доставки *</label>
+        <input type="text" id="delivery-address" name="Адрес" required style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="order-details">Ваш заказ *</label>
+        <textarea id="order-details" name="Заказ" required rows="4" style="width: 100%; padding: 8px; margin-top: 5px;" placeholder="Укажите, что хотите заказать..."></textarea>
+    </div>
+    
+    <button type="submit" style="background-color: #ff5722; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer;">
+        Оформить заказ
+    </button>
+</form>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="job-birthdate">Дата рождения</label>
-                                    <input type="date" id="job-birthdate" name="birthdate" class="form-control">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="job-city">Город проживания</label>
-                                    <input type="text" id="job-city" name="city" class="form-control" placeholder="Москва">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="job-phone">Контактный телефон *</label>
-                                    <input type="tel" id="job-phone" name="phone" class="form-control" required placeholder="+7 (999) 123-45-67">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="job-email">Email *</label>
-                                    <input type="email" id="job-email" name="email" class="form-control" required placeholder="ivanov@example.com">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="job-position">Желаемая должность *</label>
-                                    <select id="job-position" name="position" class="form-control" required>
-                                        <option value="">Выберите должность</option>
-                                        <option value="Пиццамейкер">Пиццамейкер</option>
-                                        <option value="Повар">Повар</option>
-                                        <option value="Курьер">Курьер</option>
-                                        <option value="Официант">Официант</option>
-                                        <option value="Уборщик">Уборщик</option>
-                                        <option value="Другая">Другая (укажите в комментарии)</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="job-schedule">язык программирования</label>
-                                    <select id="job-schedule" name="schedule" class="form-control">
-                                        <option value="">Не знаю</option>
-                                        <option value="С++">С++</option>
-                                        <option value="Java">Java</option>
-                                        <option value="Python">Python</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="job-experience">Опыт работы</label>
-                                <textarea id="job-experience" name="experience" class="form-control" rows="3"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="job-education">Образование</label>
-                                <textarea id="job-education" name="education" class="form-control" rows="2"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="job-skills">Ключевые навыки</label>
-                                <textarea id="job-skills" name="skills" class="form-control" rows="2" placeholder="Например: работа с кассой, знание английского, водительские права"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="ready_for_interview">
-                                    <span>Готов к собеседованию в течение недели</span>
-                                </label>
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="submit" class="btn">
-                                    <i class="fas fa-paper-plane"></i> Отправить заявку
-                                </button>
+<script>
+// Обработка отправки формы
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработчик для формы вакансий
+    const vacancyForm = document.getElementById('vacancy-form');
+    if (vacancyForm) {
+        vacancyForm.addEventListener('submit', function(e) {
+            // Можно добавить прелоадер
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            // Formspree автоматически обработает отправку
+            // Через 3 секунды вернем обычное состояние кнопки
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+    
+    // Обработчик для формы доставки
+    const deliveryForm = document.getElementById('delivery-form');
+    if (deliveryForm) {
+        deliveryForm.addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Оформляем...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+});
+</script>
                                 <button type="button" class="btn btn-secondary" id="closeJobFormBtn">
                                     <i class="fas fa-times"></i> Отмена
                                 </button>
