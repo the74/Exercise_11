@@ -19,22 +19,7 @@
         <nav>
             <ul id="mainNav">
                 <li><a href="#home" class="nav-link active">Главная</a></li>
-                <li class="dropdown">
-                    <a href="#menu" class="nav-link dropdown-toggle">
-                        Меню<i class="fas fa-chevron-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#menu" class dropdown-item" data-category="pizza">Пиццы</a></li>
-                        <li><a href="#menu" class dropdown-item" data-category="pasta">Паста</a></li>
-                        <li><a href="#menu" class dropdown-item" data-category="salad">Салаты</a></li>
-                        <li><a href="#menu" class dropdown-item" data-category="drink">Напитки</a></li>
-                    </ul>
-                </li>
-                
-                
-                
-                
-                </li>
+                <li><a href="#menu" class="nav-link">Меню</a></li>
                 <li><a href="#about" class="nav-link">О нас</a></li>
                 <li><a href="#contact" class="nav-link">Доставка</a></li>
             </ul>
@@ -51,6 +36,7 @@
         </div>
     </div>
 </header>
+
 <!-- Главная страница -->
 <section id="home" class="page">
     <!-- Герой секция с видео -->
@@ -58,19 +44,20 @@
         <!-- Видео фон -->
         <div class="video-background">
             <video autoplay muted loop playsinline id="bgVideo">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-pizza-oven-close-up-42949-large.mp4" type="video/mp4">
+                <source src="100.mp4" type="video/mp4">
                 Ваш браузер не поддерживает видео.
             </video>
             <!-- Затемнение поверх видео -->
             <div class="video-overlay"></div>
         </div>
-        
+
         <div class="hero-content">
             <h2>Вкуснейшая пицца в городе</h2>
-            <p>Готовим из свежих ингредиентов по традиционным и современным рецептам. Быстрая доставка и приятные цены!</p>
+            <p>Готовим из не свежих ингредиентов и современным рецептам. Долгая доставка и не приятные цены!</p>
             <a href="#menu" class="btn view-menu-btn">Смотреть меню</a>
         </div>
     </div>
+
     <!-- Популярные пиццы -->
     <div class="popular-pizzas">
         <div class="container">
@@ -118,6 +105,7 @@
         </div>
     </div>
 </section>
+
 <!-- Страница меню -->
 <section id="menu" class="page" style="display: none;">
     <div class="menu">
@@ -334,7 +322,7 @@
 
                                 <div class="form-group">
                                     <label for="job-city">Город проживания</label>
-                                    <input type="text" id="job-city" name="city" class="form-control" placeholder="Краснодар">
+                                    <input type="text" id="job-city" name="city" class="form-control" placeholder="Москва">
                                 </div>
                             </div>
 
